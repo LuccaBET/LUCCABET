@@ -666,6 +666,28 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- NOVO MODAL DE INSTRUÇÕES DE SAQUE -->
+            <div id="withdraw-success-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
+                <div class="bg-gray-900 p-6 rounded-lg border border-green-500 max-w-md w-full text-white text-center">
+                    <h3 class="text-2xl font-bold text-green-400 mb-4"><i class="fas fa-check-circle mr-2"></i>Saque Solicitado com Sucesso!</h3>
+                    <p class="mb-4">Sua solicitação de saque de <strong id="ws-amount" class="text-yellow-400"></strong> foi enviada.</p>
+                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-700 text-left mb-6">
+                         <p class="text-lg font-bold mb-2">Próximos Passos:</p>
+                         <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                            <li><strong>Tire um print (captura de tela)</strong> desta tela de confirmação.</li>
+                            <li>Vá para o nosso Instagram oficial.</li>
+                            <li>Envie o print no nosso direct para agilizar o processo.</li>
+                         </ol>
+                    </div>
+                    <a href="https://www.instagram.com/luccabet_oficial" target="_blank" class="w-full block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-3">
+                        <i class="fab fa-instagram mr-2"></i>Ir para o Instagram
+                    </a>
+                    <button id="close-ws-modal" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                        Fechar
+                    </button>
+                </div>
+            </div>
 
             <div id="receipt-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
                 <div class="receipt-content bg-gray-900 p-6 rounded-lg border border-blue-500 max-w-md w-full text-white">
@@ -1082,7 +1104,6 @@
         let aviatorGame = { active: false, betAmount: 0, multiplier: 1.00, animationFrame: null, crashPoint: 0 };
         const avStartGameBtn = document.getElementById('av-start-game');
         const avCashOutBtn = document.getElementById('av-cash-out');
-        // ... (other aviator elements) ...
         if(avStartGameBtn) avStartGameBtn.addEventListener('click', startAviator);
         if(avCashOutBtn) avCashOutBtn.addEventListener('click', cashOutAviator);
         
@@ -1104,6 +1125,7 @@
             document.getElementById('av-start-game').classList.add('hidden');
             document.getElementById('av-cash-out').classList.remove('hidden');
             document.getElementById('av-cash-out').disabled = false;
+            document.getElementById('av-current-bet').textContent = `CB$ ${bet.toFixed(2)}`;
             
             aviatorGame.animationFrame = requestAnimationFrame(updateAviatorGame);
         }
@@ -1133,6 +1155,7 @@
             setTimeout(() => {
                 document.getElementById('av-start-game').classList.remove('hidden');
                 document.getElementById('av-cash-out').classList.add('hidden');
+                document.getElementById('av-status').textContent = 'Aguardando início...';
             }, 3000);
         }
 
@@ -1150,6 +1173,7 @@
             setTimeout(() => {
                 document.getElementById('av-start-game').classList.remove('hidden');
                 document.getElementById('av-cash-out').classList.add('hidden');
+                document.getElementById('av-status').textContent = 'Aguardando início...';
             }, 3000);
         }
 
@@ -1420,8 +1444,10 @@
             document.getElementById('withdraw-modal').classList.add('hidden');
         });
         document.getElementById('confirm-withdraw').addEventListener('click', () => {
-            const amount = parseFloat(document.getElementById('withdraw-amount').value);
-            const key = document.getElementById('withdraw-pix-key').value;
+            const amountInput = document.getElementById('withdraw-amount');
+            const amount = parseFloat(amountInput.value);
+            const keyInput = document.getElementById('withdraw-pix-key');
+            const key = keyInput.value;
             if(isNaN(amount) || amount < 50 || amount > currentUser.balance) {
                 showNotification('Valor de saque inválido ou insuficiente.', 'red');
                 return;
@@ -1431,10 +1457,26 @@
                 return;
             }
             updateUserBalance(currentUser.balance - amount, false);
+            
             document.getElementById('withdraw-modal').classList.add('hidden');
-            showNotification(`Saque de CB$${amount.toFixed(2)} solicitado!`, 'yellow');
-            showReceipt('Saque', amount, 'Pendente');
+            
+            showWithdrawSuccessModal(amount);
+
+            amountInput.value = '';
+            keyInput.value = '';
         });
+        
+        // NOVO: Funções para o modal de sucesso de saque
+        function showWithdrawSuccessModal(amount) {
+            const modal = document.getElementById('withdraw-success-modal');
+            document.getElementById('ws-amount').textContent = `CB$ ${amount.toFixed(2)}`;
+            modal.classList.remove('hidden');
+        }
+
+        document.getElementById('close-ws-modal').addEventListener('click', () => {
+            document.getElementById('withdraw-success-modal').classList.add('hidden');
+        });
+
 
         // Receipt Modal
         const receiptModal = document.getElementById('receipt-modal');
