@@ -7,19 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .floating-notification {
-            animation: float 3s ease-in-out infinite;
-        }
-        .cell {
-            transition: all 0.3s ease;
-        }
-        .cell:hover {
-            transform: scale(1.05);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
         }
         .logo-text::after {
             content: "";
@@ -36,146 +26,44 @@
             50% { opacity: 1; transform: scaleX(1); }
             100% { opacity: 0; transform: scaleX(0); }
         }
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-        .animate-pulse {
-            animation: pulse 0.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        #av-plane {
-            transition: transform 0.1s ease-out;
-            z-index: 10;
-            will-change: transform;
-        }
-        #av-trail {
-            transition: 
-                width 0.1s ease-out,
-                background-color 0.3s ease;
-            z-index: 5;
-        }
-        .welcome-bg {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1518895949257-7621c3c786d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1489&q=80');
+        .futebol-digital-bg {
+            background-image: url('https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1935&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
         }
-        .slot-reel {
-            min-width: 64px;
-            min-height: 80px;
+        .futebol-digital-overlay {
+            background-color: rgba(0,0,0,0.85);
         }
-        .card {
-            min-width: 60px;
-            min-height: 90px;
-        }
-
-        /* --- ESTILOS ATUALIZADOS DA ROLETA --- */
-        .roulette-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            width: 280px;
-            height: 280px;
-            margin: 1rem auto;
-        }
-        .roulette-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 20px solid #22c55e; /* green-500 */
-            z-index: 10;
-        }
-        .roulette-wheel {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            border: 8px solid #4a5568; /* gray-700 */
-            background-color: #1a202c; /* gray-900 */
-            transition: transform 5s ease-out;
-        }
-        .roulette-wheel .wheel-slice {
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: 100% 100%;
-            left: 0;
-            top: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 10px;
-            font-weight: bold;
+        .bet-option.selected {
+            background-color: #22c55e;
             color: white;
+            border-color: #16a34a;
+            transform: scale(1.05);
         }
-        .roulette-center {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: #2d3748; /* gray-800 */
-            border-radius: 50%;
-            border: 5px solid #718096; /* gray-600 */
-            z-index: 5;
+        #bet-slip {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
         }
-
-        @media (max-width: 640px) {
-            .roulette-container {
-                width: 220px;
-                height: 220px;
-            }
-            .roulette-wheel {
-                width: 200px;
-                height: 200px;
-            }
-            #receipt-modal.fullscreen-mobile .receipt-content {
-                max-width: 100%;
-                height: 100%;
-                border-radius: 0;
-                border: none;
-            }
-            #receipt-modal.fullscreen-mobile .receipt-content h3 {
-                font-size: 1.5rem;
-            }
-            #receipt-modal.fullscreen-mobile .receipt-content .receipt-item, 
-            #receipt-modal.fullscreen-mobile .receipt-content .receipt-actions button {
-                font-size: 1rem;
+        @media (min-width: 1024px) {
+            #bet-slip-desktop {
+                max-height: calc(100vh - 120px);
             }
         }
-
-        /* Efeito de piscar o saldo */
-        @keyframes balance-flash {
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        @media (max-width: 1023px) {
+            #bet-slip {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            #bet-slip.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
-        .balance-updated-win {
-            animation: balance-flash 0.5s ease-in-out;
-            color: #22c55e; /* green-500 */
-        }
-        .balance-updated-loss {
-            animation: balance-flash 0.5s ease-in-out;
-            color: #ef4444; /* red-500 */
-        }
-        
-        /* --- ESTILOS ADICIONAIS PARA NOVO LOGIN --- */
         .form-group {
             position: relative;
         }
         .error-message {
-            color: #ef4444; /* red-500 */
+            color: #ef4444;
             font-size: 0.75rem;
             position: absolute;
             bottom: -18px;
@@ -191,23 +79,31 @@
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
-        
-        /* --- ESTILOS DO PAINEL ADMIN E DONO --- */
-        .admin-panel-container {
-            transition: opacity 0.3s ease-in-out;
+        .game-card {
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .admin-panel-content {
-            max-height: 90vh;
-            animation: slide-up 0.4s ease-out;
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(250, 204, 21, 0.1);
         }
-        @keyframes slide-up {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .game-card .play-btn {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .game-card:hover .play-btn {
+            opacity: 1;
+        }
+        .carousel-slide {
+            display: none;
+        }
+        .carousel-slide.active {
+            display: block;
         }
     </style>
 </head>
 <body class="bg-black text-white min-h-screen font-sans">
 
+    <!-- TELA DE LOGIN/CADASTRO -->
     <div id="login-screen" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
         <div class="bg-gray-900 p-6 sm:p-8 rounded-xl shadow-2xl border border-blue-500 max-w-md w-full">
             <div class="flex justify-center items-center mb-6">
@@ -215,6 +111,7 @@
             </div>
              <div id="auth-error-message" class="hidden bg-red-900 border border-red-700 text-red-300 px-4 py-2 rounded-lg text-center text-sm mb-4"></div>
 
+            <!-- FORMULÁRIO DE LOGIN -->
             <form id="login-form" class="space-y-4">
                 <h2 class="text-xl font-bold text-center text-white mb-4">Acessar Conta</h2>
                 <div class="form-group">
@@ -234,6 +131,7 @@
                 </div>
             </form>
             
+            <!-- FORMULÁRIO DE CADASTRO -->
             <form id="register-form" class="hidden space-y-4">
                  <h2 class="text-xl font-bold text-center text-white mb-4">Criar Nova Conta</h2>
                 <div class="form-group">
@@ -277,6 +175,8 @@
             </form>
         </div>
     </div>
+
+    <!-- APLICAÇÃO PRINCIPAL -->
     <div id="main-app" class="hidden">
         <header class="bg-gray-900 border-b border-gray-800 sticky top-0 z-40">
             <div class="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -284,19 +184,16 @@
                     <span class="text-2xl font-bold ml-2 logo-text relative">LUCCA<span class="text-yellow-400">BET</span></span>
                 </div>
                 
-                <div class="flex items-center space-x-4">
-                    <div class="bg-gray-800 px-4 py-2 rounded-lg flex items-center">
-                        <span class="text-gray-400 mr-2">Saldo:</span>
-                        <span id="user-balance" class="font-bold text-green-500">CB$ 0,00</span>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <div class="bg-gray-800 px-3 py-2 rounded-lg flex items-center">
+                        <span class="text-gray-400 mr-2 hidden sm:inline">Saldo:</span>
+                        <span id="user-balance" class="font-bold text-green-500 text-sm sm:text-base">CB$ 0,00</span>
                     </div>
-                    <button id="deposit-btn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-300">
+                    <button id="deposit-btn" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg transition duration-300 text-sm sm:text-base">
                         Depositar
                     </button>
-                    <button id="withdraw-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300">
-                        Saque
-                    </button>
                     <div class="relative">
-                        <div id="user-menu-btn" class="w-10 h-10 rounded-full cursor-pointer bg-gray-800 flex items-center justify-center text-2xl">💸</div>
+                        <button id="user-menu-btn" class="w-10 h-10 rounded-full cursor-pointer bg-gray-800 flex items-center justify-center text-xl">💸</button>
                         <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-700">
                             <a href="#" id="affiliate-link" class="block px-4 py-2 text-sm hover:bg-gray-700">Indique e Ganhe</a>
                             <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700" onclick="alert('Histórico de apostas')">Histórico</a>
@@ -312,482 +209,255 @@
         <nav class="bg-gray-900 border-b border-gray-800">
             <div class="container mx-auto px-4">
                 <div class="flex space-x-1 overflow-x-auto">
-                    <button id="home-tab" class="px-4 py-3 text-sm font-medium bg-gray-800 text-yellow-400">Início</button>
-                    <button id="casino-tab" class="px-4 py-3 text-sm font-medium hover:bg-gray-800">Cassino</button>
-                    <button id="games-tab" class="px-4 py-3 text-sm font-medium hover:bg-gray-800">Jogos</button>
+                    <button id="home-tab" class="px-4 py-3 text-sm font-medium hover:bg-gray-800 whitespace-nowrap">Início</button>
+                    <button id="casino-tab" class="px-4 py-3 text-sm font-medium hover:bg-gray-800 whitespace-nowrap">Cassino</button>
+                    <button id="games-tab" class="px-4 py-3 text-sm font-medium hover:bg-gray-800 whitespace-nowrap">Jogos</button>
+                    <button id="futebol-digital-tab" class="px-4 py-3 text-sm font-medium hover:bg-gray-800 whitespace-nowrap">Futebol Digital</button>
                 </div>
             </div>
         </nav>
 
         <main class="container mx-auto px-4 py-6">
-            <div id="notifications-container" class="fixed top-20 right-4 space-y-2 z-30"></div>
-
-            <div id="welcome-section" class="welcome-bg rounded-lg p-8 md:p-12 mb-8">
-                <div class="max-w-3xl mx-auto text-center">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Bem-vindo, <span id="welcome-username" class="text-yellow-400">Usuário</span>!</h1>
-                    <p class="text-xl mb-6">Prepare-se para a melhor experiência de apostas online. Seu saldo atual: <span id="welcome-balance" class="font-bold text-green-500">CB$ 0,00</span></p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                        <div class="bg-gray-900 bg-opacity-70 p-4 rounded-lg border border-gray-700 cursor-pointer">
-                            <div class="text-yellow-400 text-3xl mb-2"><i class="fas fa-gamepad"></i></div>
-                            <h3 class="font-bold mb-2">Jogos Incríveis</h3>
-                            <p class="text-sm text-gray-300">Diversão e emoção em nossos jogos premium</p>
-                        </div>
-                        <div class="bg-gray-900 bg-opacity-70 p-4 rounded-lg border border-gray-700 cursor-pointer">
-                            <div class="text-yellow-400 text-3xl mb-2"><i class="fas fa-gem"></i></div>
-                            <h3 class="font-bold mb-2">Bônus Diários</h3>
-                            <p class="text-sm text-gray-300">Ganhe recompensas todos os dias</p>
-                        </div>
-                        <div class="bg-gray-900 bg-opacity-70 p-4 rounded-lg border border-gray-700 cursor-pointer">
-                            <div class="text-yellow-400 text-3xl mb-2"><i class="fas fa-shield-alt"></i></div>
-                            <h3 class="font-bold mb-2">Segurança Total</h3>
-                            <p class="text-sm text-gray-300">Seus dados e transações protegidos</p>
-                        </div>
-                    </div>
-                    
-                    <button id="start-playing-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300 transform hover:scale-105">
-                        <i class="fas fa-play mr-2"></i> Começar a Jogar
-                    </button>
-                </div>
-            </div>
-
-            <div id="casino-section" class="hidden">
-                 <h2 class="text-2xl font-bold mb-6 flex items-center">
-                    <i class="fas fa-dice mr-2 text-yellow-400"></i> Jogos de Cassino
-                </h2>
-                <!-- Conteúdo do Cassino aqui -->
-            </div>
-
-            <div id="games-section" class="hidden">
-                <div class="mt-8">
-                    <h2 class="text-2xl font-bold mb-6 flex items-center">
-                        <i class="fas fa-gamepad mr-2 text-yellow-400"></i> Campo Minado
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
-                            <h3 class="text-lg font-bold mb-4">Configuração da Partida</h3>
-                            
-                            <div class="space-y-4">
-                                <div>
-                                    <label for="bet-amount" class="block text-sm font-medium mb-1">Valor da aposta (mínimo CB$1)</label>
-                                    <input type="number" id="bet-amount" min="1" value="1" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
-                                </div>
-                                
-                                <div>
-                                    <label for="mines-count" class="block text-sm font-medium mb-1">Número de minas (1-10)</label>
-                                    <select id="mines-count" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
-                                        <option value="1">1 mina (1.10x)</option>
-                                        <option value="2">2 minas (1.25x)</option>
-                                        <option value="3" selected>3 minas (1.40x)</option>
-                                        <option value="4">4 minas (1.60x)</option>
-                                        <option value="5">5 minas (2.00x)</option>
-                                        <option value="6">6 minas (2.50x)</option>
-                                        <option value="7">7 minas (3.00x)</option>
-                                        <option value="8">8 minas (3.50x)</option>
-                                        <option value="9">9 minas (3.75x)</option>
-                                        <option value="10">10 minas (4.00x)</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="pt-2">
-                                    <button id="start-game" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-300">
-                                        Iniciar Jogo
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-6 pt-4 border-t border-gray-800">
-                                <h3 class="text-lg font-bold mb-2">Status da Partida</h3>
-                                <div class="space-y-2">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-400">Aposta:</span>
-                                        <span id="current-bet" class="font-medium">CB$ 0,00</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-400">Minas:</span>
-                                        <span id="current-mines" class="font-medium">0</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-400">Cliques seguros:</span>
-                                        <span id="safe-clicks" class="font-medium">0</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-400">Multiplicador:</span>
-                                        <span id="current-multiplier" class="font-medium text-green-500">1.00x</span>
-                                    </div>
-                                    <div class="flex justify-between font-bold">
-                                        <span>Ganho potencial:</span>
-                                        <span id="potential-win" class="text-green-500">CB$ 0,00</span>
-                                    </div>
-                                </div>
-                                
-                                <button id="cash-out" class="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-300 hidden">
-                                    Retirar
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="lg:col-span-2">
-                            <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
-                                <div class="flex justify-between items-center mb-4">
-                                    <h3 class="text-lg font-bold">Tabuleiro</h3>
-                                    <div id="game-status" class="text-sm px-3 py-1 bg-gray-800 rounded-full">
-                                        Aguardando início...
-                                    </div>
-                                </div>
-                                
-                                <div id="game-board" class="grid grid-cols-5 gap-2">
-                                    <div class="text-center py-4 text-gray-600 col-span-5">
-                                        Configure a partida e clique em "Iniciar Jogo"
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-6 pt-4 border-t border-gray-800">
-                                    <h3 class="text-lg font-bold mb-2">Como jogar</h3>
-                                    <ul class="list-disc pl-5 space-y-1 text-sm text-gray-300">
-                                        <li>Escolha o valor da aposta e o número de minas</li>
-                                        <li>Clique em "Iniciar Jogo" para começar</li>
-                                        <li>Clique nos blocos para revelá-los</li>
-                                        <li>Cada bloco seguro aumenta seu multiplicador</li>
-                                        <li>Se encontrar uma mina, você perde a aposta</li>
-                                        <li>Clique em "Retirar" a qualquer momento para garantir seus ganhos</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-12">
-                    <h2 class="text-2xl font-bold mb-6 flex items-center">
-                        <i class="fas fa-plane mr-2 text-yellow-400"></i> Aviador LUCCABET
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
-                            <h3 class="text-lg font-bold mb-4">Configurar Aposta</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label for="av-bet-amount" class="block text-sm font-medium mb-1">Valor da aposta (mínimo CB$1)</label>
-                                    <input type="number" id="av-bet-amount" min="1" value="1" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
-                                </div>
-                                <button id="av-start-game" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-300">
-                                    Iniciar Voo
-                                </button>
-                            </div>
-                            
-                            <div class="mt-6 pt-4 border-t border-gray-800">
-                                <h3 class="text-lg font-bold mb-2">Status</h3>
-                                <div class="space-y-2">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-400">Aposta:</span>
-                                        <span id="av-current-bet" class="font-medium">CB$ 0,00</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-400">Multiplicador:</span>
-                                        <span id="av-multiplier" class="font-medium text-green-500">1.00x</span>
-                                    </div>
-                                    <div class="flex justify-between font-bold">
-                                        <span>Ganho:</span>
-                                        <span id="av-potential-win" class="text-green-500">CB$ 0,00</span>
-                                    </div>
-                                </div>
-                                
-                                <button id="av-cash-out" class="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-300 hidden">
-                                    Retirar
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="lg:col-span-2">
-                            <div class="bg-gray-900 p-6 rounded-lg border border-gray-800 h-full flex flex-col items-center justify-center">
-                                <div id="av-game-area" class="relative w-full h-64 bg-gradient-to-b from-gray-900 to-black rounded-lg overflow-hidden">
-                                    <div id="av-plane" class="absolute left-4 top-4 text-3xl transition-all duration-1000">
-                                        ✈️
-                                    </div>
-                                    <div id="av-trail" class="absolute left-4 top-8 w-0 h-1 bg-yellow-400 transition-all duration-1000"></div>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <div id="av-status" class="text-lg font-bold">Aguardando início...</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-12">
-                    <h2 class="text-2xl font-bold mb-6 flex items-center">
-                        <i class="fas fa-bolt mr-2 text-yellow-400"></i> Double Crash
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
-                            <h3 class="text-lg font-bold mb-4">Configurar Aposta Dupla</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label for="dc-bet-amount" class="block text-sm font-medium mb-1">Valor da aposta (mínimo CB$1)</label>
-                                    <input type="number" id="dc-bet-amount" min="1" value="1" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
-                                </div>
-                                <button id="dc-start-game" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-300">
-                                    Começar Rodada
-                                </button>
-                            </div>
-                            
-                            <div class="mt-6 pt-4 border-t border-gray-800">
-                                <h3 class="text-lg font-bold mb-2">Controles</h3>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <button id="dc-cashout1" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded transition duration-300 disabled:opacity-50" disabled>
-                                            Retirar 1
-                                        </button>
-                                        <div id="dc-status1" class="text-center text-sm mt-2 text-gray-400">Aguardando</div>
-                                    </div>
-                                     <div>
-                                        <button id="dc-cashout2" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded transition duration-300 disabled:opacity-50" disabled>
-                                            Retirar 2
-                                        </button>
-                                        <div id="dc-status2" class="text-center text-sm mt-2 text-gray-400">Aguardando</div>
-                                    </div>
-                                </div>
-                                <div class="mt-4 text-center">
-                                    <span class="text-gray-400">Ganho Total:</span>
-                                    <span id="dc-total-win" class="font-bold text-green-500">CB$ 0,00</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="lg:col-span-2">
-                            <div class="bg-gray-900 p-6 rounded-lg border border-gray-800 h-full flex flex-col items-center justify-center relative">
-                                <div class="absolute top-4 left-4 text-center">
-                                    <div class="text-sm text-blue-400">Crash 1</div>
-                                    <div id="dc-crashpoint1" class="text-xl font-bold text-blue-400">?.??x</div>
-                                </div>
-                                <div class="absolute top-4 right-4 text-center">
-                                    <div class="text-sm text-purple-400">Crash 2</div>
-                                    <div id="dc-crashpoint2" class="text-xl font-bold text-purple-400">?.??x</div>
-                                </div>
-
-                                <div id="dc-game-area" class="text-center">
-                                     <div id="dc-multiplier" class="text-6xl font-bold text-yellow-400 transition-colors duration-300">1.00x</div>
-                                     <div id="dc-game-status" class="text-lg font-bold mt-4">Aguardando início...</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="affiliate-section" class="hidden mt-8">
-                <h2 class="text-3xl font-bold mb-8 text-center text-yellow-400 flex items-center justify-center">
-                    <i class="fas fa-users mr-3"></i>Indique e Ganhe
-                </h2>
-                <div class="max-w-4xl mx-auto bg-gray-900 rounded-lg border border-gray-800 p-6 md:p-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div class="text-center md:text-left">
-                            <h3 class="text-2xl font-bold mb-4">Convide seus amigos!</h3>
-                            <p class="text-gray-400 mb-6">Compartilhe seu link exclusivo e ganhe bônus toda vez que um amigo se cadastrar e jogar.</p>
-                            <div class="bg-gray-800 p-4 rounded-lg">
-                                <p class="text-sm text-gray-500 mb-2">Seu link de afiliado:</p>
-                                <div class="flex flex-col sm:flex-row items-center justify-between bg-black p-3 rounded">
-                                    <span id="affiliate-user-link" class="font-mono text-sm break-all mb-2 sm:mb-0"></span>
-                                    <button id="copy-affiliate-link" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300 w-full sm:w-auto">
-                                        <i class="far fa-copy mr-2"></i>Copiar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
-                            <h4 class="text-xl font-bold mb-4 text-center">Suas Estatísticas</h4>
-                            <div class="space-y-4">
-                                <div class="flex justify-between items-center bg-gray-900 p-3 rounded-lg">
-                                    <span class="text-gray-300"><i class="fas fa-user-check mr-2 text-blue-400"></i>Amigos Indicados:</span>
-                                    <span id="friends-indicated" class="font-bold text-xl text-white">0</span>
-                                </div>
-                                <div class="flex justify-between items-center bg-gray-900 p-3 rounded-lg">
-                                    <span class="text-gray-300"><i class="fas fa-dollar-sign mr-2 text-green-400"></i>Bônus Gerado:</span>
-                                    <span id="bonus-generated" class="font-bold text-xl text-green-500">CB$ 0,00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="deposit-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
-                <div class="bg-gray-900 p-6 rounded-lg border border-blue-500 max-w-md w-full">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">Realizar Depósito</h3>
-                        <button id="close-deposit-modal" class="text-gray-400 hover:text-white">&times;</button>
-                    </div>
-                    <div class="space-y-4">
-                        <div>
-                            <label for="deposit-amount" class="block text-sm font-medium mb-1">Valor do depósito (mínimo CB$10)</label>
-                            <input type="number" id="deposit-amount" min="10" placeholder="10" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
-                        </div>
-                        <div id="pix-info-section" class="bg-gray-800 p-4 rounded-lg">
-                            <h4 class="font-medium mb-2">Código de Depósito (Fictício):</h4>
-                            <div class="flex items-center justify-between bg-black p-3 rounded">
-                                <span id="pix-key" class="font-mono">CODIGOLUCCA123</span>
-                                <button id="copy-pix" class="text-yellow-400 hover:text-yellow-300">
-                                    <i class="far fa-copy"></i>
-                                </button>
-                            </div>
-                            <p class="text-xs text-gray-400 mt-2">Envie o valor exato para este código. O saldo será creditado em alguns minutos.</p>
-                        </div>
-                        <button id="confirm-deposit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-                            Confirmar Depósito
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="withdraw-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
-                <div class="bg-gray-900 p-6 rounded-lg border border-blue-500 max-w-md w-full">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">Solicitar Saque</h3>
-                        <button id="close-withdraw-modal" class="text-gray-400 hover:text-white">&times;</button>
-                    </div>
-                    <div class="space-y-4">
-                        <div>
-                            <label for="withdraw-amount" class="block text-sm font-medium mb-1">Valor do saque (mínimo CB$50)</label>
-                            <input type="number" id="withdraw-amount" min="50" placeholder="50" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
-                            <p class="text-xs text-gray-400 mt-1">Seu saldo atual: <span id="withdraw-balance-info">CB$ 0,00</span></p>
-                        </div>
-                        <div>
-                            <label for="withdraw-pix-key" class="block text-sm font-medium mb-1">Sua Chave de Saque</label>
-                            <input type="text" id="withdraw-pix-key" placeholder="ex: seucodigo123" class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
-                        </div>
-                        <button id="confirm-withdraw" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-                            Solicitar Saque
-                        </button>
-                        <p class="text-xs text-gray-500 text-center">As solicitações de saque são processadas em até 24 horas.</p>
-                    </div>
-                </div>
-            </div>
             
-            <!-- NOVO MODAL DE INSTRUÇÕES DE SAQUE -->
-            <div id="withdraw-success-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
-                <div class="bg-gray-900 p-6 rounded-lg border border-green-500 max-w-md w-full text-white text-center">
-                    <h3 class="text-2xl font-bold text-green-400 mb-4"><i class="fas fa-check-circle mr-2"></i>Saque Solicitado com Sucesso!</h3>
-                    <p class="mb-4">Sua solicitação de saque de <strong id="ws-amount" class="text-yellow-400"></strong> foi enviada.</p>
-                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-700 text-left mb-6">
-                         <p class="text-lg font-bold mb-2">Próximos Passos:</p>
-                         <ol class="list-decimal list-inside space-y-2 text-gray-300">
-                            <li><strong>Tire um print (captura de tela)</strong> desta tela de confirmação.</li>
-                            <li>Vá para o nosso Instagram oficial.</li>
-                            <li>Envie o print no nosso direct para agilizar o processo.</li>
-                         </ol>
+            <!-- SEÇÃO DE BOAS-VINDAS (INÍCIO) -->
+            <div id="home-section">
+                 <h1 class="text-3xl md:text-4xl font-bold mb-2">Bem-vindo, <span id="welcome-username" class="text-yellow-400">Usuário</span>!</h1>
+                 <p class="text-lg text-gray-400 mb-8">Pronto para a emoção? Seu saldo é: <span id="welcome-balance" class="font-bold text-green-500">CB$ 0,00</span></p>
+
+                <!-- CAROUSEL -->
+                <div id="main-carousel" class="relative rounded-lg overflow-hidden mb-12 shadow-lg">
+                    <!-- Slides -->
+                    <div class="carousel-slide active">
+                        <img src="https://placehold.co/1200x400/000000/facc15?text=Bônus+de+Boas+Vindas+de+150%25" class="w-full object-cover">
                     </div>
-                    <a href="https://www.instagram.com/luccabet_oficial" target="_blank" class="w-full block bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg transition duration-300 mb-3">
-                        <i class="fab fa-instagram mr-2"></i>Ir para o Instagram
-                    </a>
-                    <button id="close-ws-modal" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-                        Fechar
-                    </button>
+                    <div class="carousel-slide">
+                        <img src="https://placehold.co/1200x400/111827/22c55e?text=Novos+Jogos+de+Slot+Adicionados" class="w-full object-cover">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://placehold.co/1200x400/1f2937/3b82f6?text=Aposte+no+Futebol+Digital" class="w-full object-cover">
+                    </div>
+                    <!-- Controles -->
+                    <button id="prev-slide" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">&lt;</button>
+                    <button id="next-slide" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">&gt;</button>
+                </div>
+
+                <!-- JOGOS POPULARES -->
+                <h2 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-star mr-2 text-yellow-400"></i> Mais Populares</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
+                    <!-- Cards de jogos populares -->
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden" data-game-name="Fortune Tiger">
+                        <img src="https://placehold.co/300x400/8421a0/ffffff?text=Fortune+Tiger" class="w-full h-auto">
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden" data-game-name="Aviator">
+                        <img src="https://placehold.co/300x400/c51d31/ffffff?text=Aviator" class="w-full h-auto">
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden" data-game-name="Mines">
+                        <img src="https://placehold.co/300x400/1e40af/ffffff?text=Mines" class="w-full h-auto">
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden" data-game-name="Gates of Olympus">
+                        <img src="https://placehold.co/300x400/a5832c/ffffff?text=Gates+of+Olympus" class="w-full h-auto">
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden" data-game-name="Sweet Bonanza">
+                        <img src="https://placehold.co/300x400/de3163/ffffff?text=Sweet+Bonanza" class="w-full h-auto">
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden" data-game-name="Spaceman">
+                        <img src="https://placehold.co/300x400/4b0082/ffffff?text=Spaceman" class="w-full h-auto">
+                    </div>
                 </div>
             </div>
 
-            <div id="receipt-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
-                <div class="receipt-content bg-gray-900 p-6 rounded-lg border border-blue-500 max-w-md w-full text-white">
-                    <div class="flex justify-between items-center mb-4 border-b border-gray-700 pb-3">
-                        <h3 class="text-xl font-bold">Comprovante de Transação</h3>
-                        <button id="close-receipt-modal" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-                    </div>
-                    <div id="receipt-details" class="space-y-3 text-sm">
-                        <div class="receipt-item flex justify-between">
-                            <span class="text-gray-400">Tipo:</span>
-                            <span id="receipt-type" class="font-bold"></span>
-                        </div>
-                        <div class="receipt-item flex justify-between">
-                            <span class="text-gray-400">Valor:</span>
-                            <span id="receipt-amount" class="font-bold"></span>
-                        </div>
-                        <div class="receipt-item flex justify-between">
-                            <span class="text-gray-400">Status:</span>
-                            <span id="receipt-status" class="font-bold"></span>
-                        </div>
-                        <div class="receipt-item flex justify-between">
-                            <span class="text-gray-400">Data e Hora:</span>
-                            <span id="receipt-datetime" class="font-mono"></span>
-                        </div>
-                        <div class="receipt-item flex justify-between">
-                            <span class="text-gray-400">ID da Transação:</span>
-                            <span id="receipt-id" class="font-mono"></span>
+            <!-- SEÇÃO DE CASSINO -->
+            <div id="casino-section" class="hidden">
+                 <h2 class="text-3xl font-bold mb-8 flex items-center"><i class="fas fa-dice-five mr-3 text-yellow-400"></i> Nosso Cassino</h2>
+                
+                <!-- CAÇA-NÍQUEIS -->
+                <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-gem mr-2 text-pink-500"></i> Caça-Níqueis Populares</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
+                    <!-- Game Cards -->
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="Wolf Gold">
+                        <img src="https://placehold.co/300x400/4a4a4a/ffffff?text=Wolf+Gold" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                            <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
                         </div>
                     </div>
-                    <div class="receipt-actions mt-6 pt-4 border-t border-gray-700 flex flex-col sm:flex-row gap-2">
-                        <button id="copy-receipt" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-                            <i class="far fa-copy mr-2"></i>Copiar Comprovante
-                        </button>
-                        <button id="close-receipt-btn" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-                            Fechar
-                        </button>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="Big Bass Bonanza">
+                        <img src="https://placehold.co/300x400/2a6a9b/ffffff?text=Big+Bass+Bonanza" class="w-full h-auto">
+                         <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                            <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
+                        </div>
+                    </div>
+                    <!-- Adicionar mais 28 jogos de slot para preencher a página -->
+                    <script>
+                        const slots = ["The Dog House", "Gonzo's Quest", "Starburst", "Book of Dead", "Legacy of Dead", "Fire Joker", "Reactoonz", "Money Train 2", "Jammin' Jars", "Razor Shark", "Dead or Alive 2", "Fruit Party", "Madame Destiny", "Mustang Gold", "John Hunter", "Great Rhino", "Chilli Heat", "Wild West Gold", "Viking Runecraft", "Moon Princess", "Rise of Olympus", "Honey Rush", "Tome of Madness", "Bonanza Megaways", "Extra Chilli", "White Rabbit", "Divine Fortune", "Mega Moolah"];
+                        const slotColors = ["7b2cbf", "c71f37", "f9a620", "2d6a4f", "03045e", "d00000", "ff6d00", "5f0f40", "9a031e", "e85d04", "fb8500", "023047", "219ebc", "8ecae6", "ffb703", "14213d", "fca311", "e5e5e5", "000000", "6a040f", "9d0208", "d00000", "dc2f02", "e85d04", "f48c06", "faa307", "ffba08", "3f88c5"];
+                        for(let i = 0; i < slots.length; i++) {
+                            document.write(`
+                                <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="${slots[i]}">
+                                    <img src="https://placehold.co/300x400/${slotColors[i]}/ffffff?text=${encodeURIComponent(slots[i])}" class="w-full h-auto">
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                                        <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
+                                    </div>
+                                </div>
+                            `);
+                        }
+                    </script>
+                </div>
+
+                <!-- JOGOS DE MESA -->
+                <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-chess-board mr-2 text-green-500"></i> Jogos de Mesa</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
+                     <!-- Game Cards -->
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="Roleta Brasileira">
+                        <img src="https://placehold.co/300x400/004b23/ffffff?text=Roleta+Brasileira" class="w-full h-auto">
+                         <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                            <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
+                        </div>
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="Blackjack Clássico">
+                        <img src="https://placehold.co/300x400/b22222/ffffff?text=Blackjack" class="w-full h-auto">
+                         <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                            <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
+                        </div>
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="Poker Texas Hold'em">
+                        <img src="https://placehold.co/300x400/00008b/ffffff?text=Poker" class="w-full h-auto">
+                         <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                            <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
+                        </div>
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="Baccarat">
+                        <img src="https://placehold.co/300x400/8b0000/ffffff?text=Baccarat" class="w-full h-auto">
+                         <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                            <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- SEÇÃO DE JOGOS -->
+            <div id="games-section" class="hidden">
+                 <h2 class="text-3xl font-bold mb-8 flex items-center"><i class="fas fa-gamepad mr-3 text-blue-500"></i> Jogos Originais</h2>
+                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="Aviator">
+                        <img src="https://placehold.co/300x400/c51d31/ffffff?text=Aviator" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                            <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
+                        </div>
+                    </div>
+                    <div class="game-card bg-gray-900 rounded-lg overflow-hidden relative" data-game-name="Mines">
+                        <img src="https://placehold.co/300x400/1e40af/ffffff?text=Mines" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center play-btn">
+                            <button class="text-white bg-green-600 px-4 py-2 rounded-lg font-bold">Jogar</button>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- SEÇÃO DE FUTEBOL DIGITAL -->
+            <div id="futebol-digital-section" class="hidden futebol-digital-bg">
+                <div class="futebol-digital-overlay rounded-lg p-4 md:p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2">
+                            <!-- APOSTAS CBFD -->
+                            <div class="mb-12">
+                                <h2 class="text-3xl font-bold mb-2 flex items-center text-yellow-400"><i class="fas fa-futbol mr-3"></i> Apostas CBFD</h2>
+                                <p class="text-gray-300 mb-6">TORNEIO DE ELITE CBFD - Hoje, 14 de Agosto de 2025 - 20:00</p>
+                                <div class="bg-red-800 bg-opacity-80 border-l-4 border-red-400 text-white p-4 rounded-lg mb-6" role="alert">
+                                    <p class="font-bold">Atenção!</p>
+                                    <p>Após finalizar a aposta no bilhete, tire um print e envie para <a href="https://www.instagram.com/luccabet_oficial" target="_blank" class="font-bold underline hover:text-yellow-300">@luccabet_oficial</a> para validar.</p>
+                                </div>
+                                <div class="space-y-4" id="cbfd-games-list">
+                                    <!-- Jogo 1 -->
+                                    <div class="bg-gray-900 bg-opacity-70 p-4 rounded-lg border border-gray-800">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <span class="font-bold text-lg">KIDS FC</span>
+                                            <span class="text-gray-400 font-bold">VS</span>
+                                            <span class="font-bold text-lg">FC VENCEDORES</span>
+                                        </div>
+                                        <div class="grid grid-cols-3 gap-2 text-center">
+                                            <button class="bet-option bg-gray-800 hover:bg-gray-700 p-2 rounded transition border-2 border-transparent" data-game-id="1" data-game-name="KIDS FC vs FC VENCEDORES" data-market="Resultado Final" data-selection="KIDS FC" data-odd="2.50">
+                                                <span class="block text-sm">Casa</span><span class="font-bold">2.50</span>
+                                            </button>
+                                            <button class="bet-option bg-gray-800 hover:bg-gray-700 p-2 rounded transition border-2 border-transparent" data-game-id="1" data-game-name="KIDS FC vs FC VENCEDORES" data-market="Resultado Final" data-selection="Empate" data-odd="3.10">
+                                                <span class="block text-sm">Empate</span><span class="font-bold">3.10</span>
+                                            </button>
+                                            <button class="bet-option bg-gray-800 hover:bg-gray-700 p-2 rounded transition border-2 border-transparent" data-game-id="1" data-game-name="KIDS FC vs FC VENCEDORES" data-market="Resultado Final" data-selection="FC VENCEDORES" data-odd="2.80">
+                                                <span class="block text-sm">Fora</span><span class="font-bold">2.80</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Jogo 2 -->
+                                    <div class="bg-gray-900 bg-opacity-70 p-4 rounded-lg border border-gray-800">
+                                        <div class="flex items-center justify-between mb-4">
+                                             <span class="font-bold text-lg">FC CORRUPÇÃO</span>
+                                            <span class="text-gray-400 font-bold">VS</span>
+                                            <span class="font-bold text-lg">CR PORCOS</span>
+                                        </div>
+                                        <div class="grid grid-cols-3 gap-2 text-center">
+                                            <button class="bet-option bg-gray-800 hover:bg-gray-700 p-2 rounded transition border-2 border-transparent" data-game-id="2" data-game-name="FC CORRUPÇÃO vs CR PORCOS" data-market="Resultado Final" data-selection="FC CORRUPÇÃO" data-odd="1.80">
+                                                <span class="block text-sm">Casa</span><span class="font-bold">1.80</span>
+                                            </button>
+                                            <button class="bet-option bg-gray-800 hover:bg-gray-700 p-2 rounded transition border-2 border-transparent" data-game-id="2" data-game-name="FC CORRUPÇÃO vs CR PORCOS" data-market="Resultado Final" data-selection="Empate" data-odd="3.50">
+                                                <span class="block text-sm">Empate</span><span class="font-bold">3.50</span>
+                                            </button>
+                                            <button class="bet-option bg-gray-800 hover:bg-gray-700 p-2 rounded transition border-2 border-transparent" data-game-id="2" data-game-name="FC CORRUPÇÃO vs CR PORCOS" data-market="Resultado Final" data-selection="CR PORCOS" data-odd="4.00">
+                                                <span class="block text-sm">Fora</span><span class="font-bold">4.00</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- BILHETE DE APOSTAS (Desktop) -->
+                        <div class="hidden lg:block">
+                             <div id="bet-slip-desktop" class="bg-gray-900 rounded-lg border border-gray-800 p-4 sticky top-24">
+                                <!-- Conteúdo do bilhete injetado pelo JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO DE AFILIADOS (OCULTA) -->
+            <div id="affiliate-section" class="hidden mt-8">
+                 <h2 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-users mr-2 text-yellow-400"></i> Indique e Ganhe</h2>
             </div>
         </main>
 
-        <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8">
-            <div class="container mx-auto px-4">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div>
-                        <h3 class="text-lg font-bold mb-4 flex items-center logo-text relative">
-                           LUCCA<span class="text-yellow-400">BET</span>
-                        </h3>
-                        <p class="text-sm text-gray-400">A casa de apostas mais divertida e recompensadora.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold mb-4">Links Rápidos</h4>
-                        <ul class="space-y-2 text-sm text-gray-400">
-                            <li><a href="#" onclick="document.getElementById('home-tab').click(); return false;" class="hover:text-yellow-400">Início</a></li>
-                            <li><a href="#" onclick="document.getElementById('casino-tab').click(); return false;" class="hover:text-yellow-400">Cassino</a></li>
-                            <li><a href="#" onclick="document.getElementById('games-tab').click(); return false;" class="hover:text-yellow-400">Jogos</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold mb-4">Suporte</h4>
-                        <ul class="space-y-2 text-sm text-gray-400">
-                            <li><a href="#" class="hover:text-yellow-400">FAQ</a></li>
-                            <li><a href="#" class="hover:text-yellow-400">Chat ao Vivo</a></li>
-                            <li><a href="#" class="hover:text-yellow-400">Termos de Uso</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold mb-4">Segurança</h4>
-                        <div class="flex space-x-4 mb-4">
-                            <div class="w-12 h-8 bg-gray-800 rounded flex items-center justify-center">
-                                <i class="fas fa-lock text-green-500"></i>
-                            </div>
-                            <div class="w-12 h-8 bg-gray-800 rounded flex items-center justify-center">
-                                <i class="fas fa-shield-alt text-blue-500"></i>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500">Jogue com responsabilidade. Apenas para maiores de 18 anos.</p>
-                    </div>
+        <!-- BILHETE DE APOSTAS (Mobile) -->
+        <div id="bet-slip" class="lg:hidden fixed bottom-0 left-0 right-0 bg-gray-900 border-t-2 border-yellow-400 z-40 p-4 shadow-lg">
+            <!-- Conteúdo do bilhete injetado pelo JS -->
+        </div>
+
+        <!-- MODAL DE JOGO -->
+        <div id="game-modal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
+            <div class="bg-gray-900 rounded-lg w-full max-w-3xl h-3/4 flex flex-col p-4 border-2 border-yellow-400 shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="game-modal-title" class="text-xl font-bold text-yellow-400">Nome do Jogo</h3>
+                    <button id="close-game-modal" class="text-white text-2xl">&times;</button>
                 </div>
-                <div class="border-t border-gray-800 mt-8 pt-6 text-sm text-gray-500 text-center">
-                    <p>© 2024 LUCCABET. Todos os direitos reservados.</p>
+                <div class="flex-grow bg-black rounded flex items-center justify-center">
+                    <p class="text-gray-500">Simulação de jogo...</p>
                 </div>
             </div>
+        </div>
+
+
+        <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8 text-center text-gray-400">
+            <p>&copy; 2025 LUCCABET. Todos os direitos reservados.</p>
+            <p class="text-sm">Apostas são para maiores de 18 anos. Jogue com responsabilidade.</p>
         </footer>
     </div>
     
     <script>
+    document.addEventListener('DOMContentLoaded', () => {
         // ================================================================== //
-        // START: LÓGICA DO SISTEMA DE AUTENTICAÇÃO                         //
+        // SIMULAÇÃO DE BANCO DE DADOS E AUTENTICAÇÃO
         // ================================================================== //
-        
-        // Simulação de banco de dados com localStorage
         const usersDB = {
-            getUsers: () => {
-                const users = localStorage.getItem('luccabet_users_v3');
-                return users ? JSON.parse(users) : {};
-            },
-            saveUsers: (users) => {
-                localStorage.setItem('luccabet_users_v3', JSON.stringify(users));
-            },
+            getUsers: () => JSON.parse(localStorage.getItem('luccabet_users_v3') || '{}'),
+            saveUsers: (users) => localStorage.setItem('luccabet_users_v3', JSON.stringify(users)),
             findUser: (identifier) => {
                 const users = usersDB.getUsers();
                 const lowerId = identifier.toLowerCase();
@@ -801,26 +471,20 @@
                 if (Object.values(users).some(u => u.username.toLowerCase() === userData.username.toLowerCase())) {
                     return { error: 'Este Nome de Usuário já está em uso.' };
                 }
-                
                 const userId = `user_${Date.now()}`;
                 users[userId] = {
                     id: userId,
                     ...userData,
-                    password: btoa(userData.password),
-                    balance: 0,
+                    password: btoa(userData.password), // Apenas para simulação. Use hash em produção.
+                    balance: 1000, // Saldo inicial para teste
                     createdAt: new Date().toISOString(),
-                    stats: {}
                 };
-                
                 usersDB.saveUsers(users);
                 return { user: users[userId] };
             },
             updateUser: (userId, data) => {
                 const users = usersDB.getUsers();
-                if (!users[userId]) {
-                    return { error: 'Usuário não encontrado' };
-                }
-                
+                if (!users[userId]) return { error: 'Usuário não encontrado' };
                 users[userId] = { ...users[userId], ...data };
                 usersDB.saveUsers(users);
                 return { user: users[userId] };
@@ -829,83 +493,100 @@
 
         let currentUser = null;
 
+        // Elementos da UI de Autenticação
         const loginScreen = document.getElementById('login-screen');
         const mainApp = document.getElementById('main-app');
-        
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
-
         const showRegisterBtn = document.getElementById('show-register');
         const showLoginBtn = document.getElementById('show-login');
-
         const authErrorMessage = document.getElementById('auth-error-message');
+        
+        // Funções de Autenticação
+        const startUserSession = (user) => {
+            currentUser = user;
+            localStorage.setItem('luccabet_current_user_v3', JSON.stringify(user));
+            loginScreen.classList.add('hidden');
+            mainApp.classList.remove('hidden');
+            updateUserData();
+            document.getElementById('welcome-username').textContent = currentUser.username;
+            document.getElementById('home-tab').click();
+        };
 
+        const checkLoggedInUser = () => {
+            const userData = localStorage.getItem('luccabet_current_user_v3');
+            if (userData) {
+                const user = JSON.parse(userData);
+                const dbUser = usersDB.getUsers()[user.id];
+                if (dbUser) startUserSession(dbUser);
+                else loginScreen.classList.remove('hidden');
+            } else {
+                loginScreen.classList.remove('hidden');
+            }
+        };
+
+        const logout = () => {
+            currentUser = null;
+            localStorage.removeItem('luccabet_current_user_v3');
+            window.location.reload();
+        };
+
+        const showAuthError = (message) => {
+            authErrorMessage.textContent = message;
+            authErrorMessage.classList.remove('hidden');
+        };
+        const hideAuthError = () => authErrorMessage.classList.add('hidden');
+
+        const showAuthView = (view) => {
+            hideAuthError();
+            loginForm.classList.toggle('hidden', view === 'register');
+            registerForm.classList.toggle('hidden', view === 'login');
+        };
+
+        // Validação de Formulário
         const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
         const isOver18 = (birthdate) => {
             if (!birthdate) return false;
             const today = new Date();
             const birthDate = new Date(birthdate);
             let age = today.getFullYear() - birthDate.getFullYear();
             const m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
             return age >= 18;
         };
-        
-        const setFieldError = (input, message) => {
-            const errorDiv = input.nextElementSibling;
-            if (message) {
+        const validateField = (input, condition, errorMsg) => {
+            const formGroup = input.closest('.form-group');
+            const errorDiv = formGroup.querySelector('.error-message');
+            if (!condition) {
                 input.classList.add('invalid');
-                errorDiv.textContent = message;
-                errorDiv.style.display = 'block';
-            } else {
-                input.classList.remove('invalid');
-                errorDiv.style.display = 'none';
+                if (errorDiv) {
+                    errorDiv.textContent = errorMsg;
+                    errorDiv.style.display = 'block';
+                }
+                return false;
             }
-        };
-        const showAuthError = (message) => {
-            authErrorMessage.textContent = message;
-            authErrorMessage.classList.remove('hidden');
-        }
-        const hideAuthError = () => {
-             authErrorMessage.classList.add('hidden');
-        }
-
-        const showAuthView = (view) => {
-            hideAuthError();
-            loginForm.classList.add('hidden');
-            registerForm.classList.add('hidden');
-            if (view === 'login') loginForm.classList.remove('hidden');
-            if (view === 'register') registerForm.classList.remove('hidden');
+            input.classList.remove('invalid');
+            if (errorDiv) errorDiv.style.display = 'none';
+            return true;
         };
 
-        showRegisterBtn.addEventListener('click', () => showAuthView('register'));
-        showLoginBtn.addEventListener('click', () => showAuthView('login'));
-        
+        // Listeners de Autenticação
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             hideAuthError();
             const identifier = document.getElementById('login-identifier').value.trim();
             const password = document.getElementById('login-password').value;
-
             const user = usersDB.findUser(identifier);
-            if (!user) {
-                return showAuthError('Usuário ou e-mail não encontrado.');
+            if (user && user.password === btoa(password)) {
+                startUserSession(user);
+            } else {
+                showAuthError('Credenciais inválidas.');
             }
-            if (user.password !== btoa(password)) {
-                 return showAuthError('Senha incorreta.');
-            }
-            
-            startUserSession(user);
         });
 
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
             hideAuthError();
-            let isValid = true;
-            
             const fullNameInput = document.getElementById('reg-fullname');
             const usernameInput = document.getElementById('reg-username');
             const emailInput = document.getElementById('reg-email');
@@ -913,606 +594,284 @@
             const passwordInput = document.getElementById('reg-password');
             const termsInput = document.getElementById('reg-terms');
 
-            [fullNameInput, usernameInput, emailInput, birthdateInput, passwordInput].forEach(i => setFieldError(i, null));
+            let isValid = true;
+            isValid &= validateField(fullNameInput, fullNameInput.value.trim().length > 2, 'Nome completo é obrigatório.');
+            isValid &= validateField(usernameInput, /^[a-zA-Z0-9_]{3,15}$/.test(usernameInput.value), 'Usuário: 3-15 caracteres (letras, números, _).');
+            isValid &= validateField(emailInput, validateEmail(emailInput.value), 'Por favor, insira um e-mail válido.');
+            isValid &= validateField(birthdateInput, isOver18(birthdateInput.value), 'Você deve ter mais de 18 anos.');
+            isValid &= validateField(passwordInput, passwordInput.value.length >= 6, 'A senha deve ter no mínimo 6 caracteres.');
             
-            if (!fullNameInput.value.trim()) { setFieldError(fullNameInput, 'Nome completo é obrigatório.'); isValid = false; }
-            if (!usernameInput.value.trim() || usernameInput.value.includes(' ')) { setFieldError(usernameInput, 'Nome de usuário inválido.'); isValid = false; }
-            if (!validateEmail(emailInput.value)) { setFieldError(emailInput, 'Formato de e-mail inválido.'); isValid = false; }
-            if (!isOver18(birthdateInput.value)) { setFieldError(birthdateInput, 'Você precisa ter mais de 18 anos.'); isValid = false; }
-            if (passwordInput.value.length < 6) { setFieldError(passwordInput, 'A senha deve ter no mínimo 6 caracteres.'); isValid = false; }
-            if (!termsInput.checked) { showAuthError('Você deve aceitar os Termos de Uso.'); isValid = false; }
-
+            if (!termsInput.checked) {
+                isValid = false;
+                showAuthError("Você deve aceitar os Termos de Uso.");
+            }
             if (!isValid) return;
 
-            const userData = {
+            const { user, error } = usersDB.createUser({
                 fullName: fullNameInput.value.trim(),
                 username: usernameInput.value.trim(),
                 email: emailInput.value.trim(),
                 birthdate: birthdateInput.value,
-                password: passwordInput.value,
-            };
-            
-            const { user, error } = usersDB.createUser(userData);
+                password: passwordInput.value
+            });
 
-            if (error) {
-                return showAuthError(error);
-            }
-            
-            showNotification('Cadastro realizado com sucesso! Bem-vindo!', 'green');
-            startUserSession(user);
+            if (user) startUserSession(user);
+            else showAuthError(error);
         });
-        
-        function startUserSession(user) {
-            currentUser = user;
-            localStorage.setItem('luccabet_current_user_v3', JSON.stringify(user));
-            
-            loginScreen.classList.add('hidden');
-            mainApp.classList.remove('hidden');
-            
-            updateUserData();
-            startRandomNotifications();
-            
-            welcomeUsername.textContent = currentUser.username;
-            homeTab.click();
-        }
 
-        function checkLoggedInUser() {
-            const userData = localStorage.getItem('luccabet_current_user_v3');
-            if (userData) {
-                const user = JSON.parse(userData);
-                const dbUser = usersDB.getUsers()[user.id];
-                if (dbUser) {
-                    startUserSession(dbUser);
-                }
-            }
-        }
-
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('luccabet_current_user_v3');
-            mainApp.classList.add('hidden');
-            loginScreen.classList.remove('hidden');
-            
-            loginForm.reset();
-            registerForm.reset();
-            showAuthView('login');
-        }
+        showRegisterBtn.addEventListener('click', () => showAuthView('register'));
+        showLoginBtn.addEventListener('click', () => showAuthView('login'));
 
         // ================================================================== //
-        // END: LÓGICA DO SISTEMA DE AUTENTICAÇÃO                           //
+        // UI PRINCIPAL, NAVEGAÇÃO E DADOS DO USUÁRIO
         // ================================================================== //
+        const userMenuBtn = document.getElementById('user-menu-btn');
+        const userMenu = document.getElementById('user-menu');
+        const tabs = document.querySelectorAll('nav button');
+        const sections = document.querySelectorAll('main > div[id$="-section"]');
 
-
-        const betCooldowns = {};
-        const BET_COOLDOWN_MS = 2000;
-        
-        const logoutBtn = document.getElementById('logout-btn');
-        const userBalance = document.getElementById('user-balance');
-        const welcomeUsername = document.getElementById('welcome-username');
-        const welcomeBalance = document.getElementById('welcome-balance');
-        const homeTab = document.getElementById('home-tab');
-        const casinoTab = document.getElementById('casino-tab');
-        const gamesTab = document.getElementById('games-tab');
-        const affiliateLink = document.getElementById('affiliate-link');
-        const welcomeSection = document.getElementById('welcome-section');
-        const casinoSection = document.getElementById('casino-section');
-        const gamesSection = document.getElementById('games-section');
-        const affiliateSection = document.getElementById('affiliate-section'); 
-        const startPlayingBtn = document.getElementById('start-playing-btn');
-
-        function handleTabClick(activeTab, activeSection) {
-            const tabs = [homeTab, casinoTab, gamesTab, affiliateLink];
-            const sections = [welcomeSection, casinoSection, gamesSection, affiliateSection];
-
-            tabs.forEach(tab => tab && tab.classList.remove('bg-gray-800', 'text-yellow-400'));
+        const handleTabClick = (activeTab) => {
+            tabs.forEach(tab => tab.classList.remove('bg-gray-800', 'text-yellow-400'));
             sections.forEach(section => section.classList.add('hidden'));
 
-            if(activeTab) activeTab.classList.add('bg-gray-800', 'text-yellow-400');
-            activeSection.classList.remove('hidden');
-        }
+            activeTab.classList.add('bg-gray-800', 'text-yellow-400');
+            const activeSection = document.getElementById(activeTab.id.replace('-tab', '-section'));
+            if (activeSection) activeSection.classList.remove('hidden');
+        };
+
+        tabs.forEach(tab => tab.addEventListener('click', () => handleTabClick(tab)));
         
-        affiliateLink.addEventListener('click', (e) => {
+        document.getElementById('logout-btn').addEventListener('click', logout);
+        userMenuBtn.addEventListener('click', () => userMenu.classList.toggle('hidden'));
+        document.addEventListener('click', (e) => {
+            if (!userMenuBtn.contains(e.target) && !userMenu.contains(e.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+        document.getElementById('affiliate-link').addEventListener('click', (e) => {
             e.preventDefault();
-            handleTabClick(null, affiliateSection);
-            document.getElementById('user-menu').classList.add('hidden');
-
-            document.getElementById('affiliate-user-link').textContent = `https://luccabet.com/?ref=${currentUser.username.toUpperCase()}`;
-            document.getElementById('friends-indicated').textContent = currentUser.stats.affiliates?.count || 0;
-            document.getElementById('bonus-generated').textContent = `CB$ ${(currentUser.stats.affiliates?.bonus || 0).toFixed(2)}`;
+             handleTabClick({ id: 'affiliate-tab' }); // Simula o clique na aba
+            userMenu.classList.add('hidden');
         });
 
-        homeTab.addEventListener('click', () => handleTabClick(homeTab, welcomeSection));
-        casinoTab.addEventListener('click', () => handleTabClick(casinoTab, casinoSection));
-        gamesTab.addEventListener('click', () => handleTabClick(gamesTab, gamesSection));
-
-        startPlayingBtn.addEventListener('click', () => {
-            gamesTab.click();
-        });
-
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            logout();
-        });
-
-        function updateUserData(isWin = null) {
+        const updateUserData = () => {
             if (!currentUser) return;
-            
-            welcomeUsername.textContent = currentUser.username;
-            const formattedBalance = `CB$ ${currentUser.balance.toFixed(2)}`;
-            const balanceElements = [userBalance, welcomeBalance, document.getElementById('withdraw-balance-info')];
+            const formattedBalance = `CB$ ${currentUser.balance.toFixed(2).replace('.', ',')}`;
+            document.getElementById('user-balance').textContent = formattedBalance;
+            document.getElementById('welcome-balance').textContent = formattedBalance;
+        };
 
-            balanceElements.forEach(el => {
-                if(el) {
-                    el.textContent = formattedBalance;
-                    el.classList.remove('balance-updated-win', 'balance-updated-loss', 'text-green-500', 'text-red-500');
-                    
-                    if (isWin === true) {
-                        el.classList.add('balance-updated-win');
-                    } else if (isWin === false) {
-                        el.classList.add('balance-updated-loss');
-                    }
-                    setTimeout(() => {
-                        el.classList.remove('balance-updated-win', 'balance-updated-loss');
-                        el.classList.add('text-green-500');
-                    }, 500);
-                }
+        const updateUserBalance = (newBalance) => {
+            if (!currentUser) return;
+            currentUser.balance = newBalance;
+            usersDB.updateUser(currentUser.id, { balance: newBalance });
+            updateUserData();
+        };
+
+        const showNotification = (message, color = 'blue', duration = 5000) => {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-24 right-4 bg-gray-900 border-l-4 border-${color}-500 px-4 py-3 rounded-lg shadow-lg text-sm flex items-center z-50 transition-opacity duration-300`;
+            notification.innerHTML = `<span>${message}</span>`;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, duration);
+        };
+        
+        // ================================================================== //
+        // LÓGICA DO CAROUSEL
+        // ================================================================== //
+        const slides = document.querySelectorAll('.carousel-slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
             });
         }
 
-        function updateUserBalance(newBalance, isWin = null) {
-            if (!currentUser) return;
-            
-            currentUser.balance = newBalance;
-            usersDB.updateUser(currentUser.id, { balance: newBalance });
-            updateUserData(isWin);
-        }
+        document.getElementById('next-slide').addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        });
 
-        const winMessages = [
-            "Usuário 78*****654 ganhou CB$50.000 🔥",
-            "Usuário 82*****121 faturou CB$12.700 🔥",
-            "Usuário 23*****891 acertou CB$8.320 🔥",
-        ];
-
-        function startRandomNotifications() {
-            setTimeout(() => {
-                showRandomWinNotification();
-                setInterval(showRandomWinNotification, Math.random() * 10000 + 10000);
-            }, 5000);
-        }
-
-        function showRandomWinNotification() {
-            const randomMessage = winMessages[Math.floor(Math.random() * winMessages.length)];
-            showNotification(randomMessage, 'yellow');
-        }
-
-        function showNotification(message, color = 'blue', duration = 5000) {
-            const notification = document.createElement('div');
-            notification.className = `floating-notification bg-gray-900 border-l-4 border-${color}-500 px-4 py-2 rounded shadow-lg text-sm flex items-center`;
-            notification.innerHTML = `<span class="mr-2">${message}</span>`;
-            
-            const notificationsContainer = document.getElementById('notifications-container');
-            notificationsContainer.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                notification.style.transition = 'opacity 1s';
-                setTimeout(() => notification.remove(), 1000);
-            }, duration);
-        }
-
-        // Aviator game logic
-        let aviatorGame = { active: false, betAmount: 0, multiplier: 1.00, animationFrame: null, crashPoint: 0 };
-        const avStartGameBtn = document.getElementById('av-start-game');
-        const avCashOutBtn = document.getElementById('av-cash-out');
-        if(avStartGameBtn) avStartGameBtn.addEventListener('click', startAviator);
-        if(avCashOutBtn) avCashOutBtn.addEventListener('click', cashOutAviator);
+        document.getElementById('prev-slide').addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        });
         
-        function startAviator() {
-            const gameName = 'Aviador LUCCABET';
-            if (Date.now() - (betCooldowns[gameName] || 0) < BET_COOLDOWN_MS) return;
+        setInterval(() => {
+             document.getElementById('next-slide').click();
+        }, 5000);
 
-            const bet = parseFloat(document.getElementById('av-bet-amount').value);
-            if (isNaN(bet) || bet < 1 || bet > currentUser.balance) {
-                showNotification(bet > currentUser.balance ? 'Saldo insuficiente' : 'Aposta mínima CB$1.00', 'red');
-                return;
-            }
-            
-            betCooldowns[gameName] = Date.now();
-            updateUserBalance(currentUser.balance - bet, false);
-            
-            aviatorGame = { active: true, betAmount: bet, multiplier: 1.00, crashPoint: 1 + Math.random() * 9, animationFrame: null };
-            
-            document.getElementById('av-start-game').classList.add('hidden');
-            document.getElementById('av-cash-out').classList.remove('hidden');
-            document.getElementById('av-cash-out').disabled = false;
-            document.getElementById('av-current-bet').textContent = `CB$ ${bet.toFixed(2)}`;
-            
-            aviatorGame.animationFrame = requestAnimationFrame(updateAviatorGame);
-        }
-
-        function updateAviatorGame() {
-            if (!aviatorGame.active) return;
-            aviatorGame.multiplier += 0.01 + (aviatorGame.multiplier * 0.005);
-            
-            document.getElementById('av-multiplier').textContent = `${aviatorGame.multiplier.toFixed(2)}x`;
-            document.getElementById('av-potential-win').textContent = `CB$ ${(aviatorGame.betAmount * aviatorGame.multiplier).toFixed(2)}`;
-            
-            if (aviatorGame.multiplier >= aviatorGame.crashPoint) {
-                crashAviator();
-                return;
-            }
-            aviatorGame.animationFrame = requestAnimationFrame(updateAviatorGame);
-        }
-
-        function crashAviator() {
-            if (!aviatorGame.active) return;
-            cancelAnimationFrame(aviatorGame.animationFrame);
-            aviatorGame.active = false;
-            
-            document.getElementById('av-status').textContent = `Caiu em ${aviatorGame.crashPoint.toFixed(2)}x!`;
-            showNotification(`O avião caiu!`, 'red');
-            
-            setTimeout(() => {
-                document.getElementById('av-start-game').classList.remove('hidden');
-                document.getElementById('av-cash-out').classList.add('hidden');
-                document.getElementById('av-status').textContent = 'Aguardando início...';
-            }, 3000);
-        }
-
-        function cashOutAviator() {
-            if (!aviatorGame.active) return;
-            cancelAnimationFrame(aviatorGame.animationFrame);
-            const winAmount = aviatorGame.betAmount * aviatorGame.multiplier;
-            updateUserBalance(currentUser.balance + winAmount, true);
-            
-            aviatorGame.active = false;
-            document.getElementById('av-cash-out').disabled = true;
-            document.getElementById('av-status').textContent = `Retirado em ${aviatorGame.multiplier.toFixed(2)}x!`;
-            showNotification(`Você ganhou CB$${winAmount.toFixed(2)}!`, 'green');
-
-            setTimeout(() => {
-                document.getElementById('av-start-game').classList.remove('hidden');
-                document.getElementById('av-cash-out').classList.add('hidden');
-                document.getElementById('av-status').textContent = 'Aguardando início...';
-            }, 3000);
-        }
-
-        // Mines Game Logic
-        let minesGameState = { active: false, betAmount: 0, minesCount: 0, safeCellsClicked: 0, multiplier: 1, minesPositions: [], revealedCells: [] };
-        if(document.getElementById('start-game')) document.getElementById('start-game').addEventListener('click', startGame);
-        if(document.getElementById('cash-out')) document.getElementById('cash-out').addEventListener('click', () => cashOut(false));
-
-        function startGame() {
-            const gameName = 'Campo Minado';
-            if (Date.now() - (betCooldowns[gameName] || 0) < BET_COOLDOWN_MS) return;
-
-            const bet = parseFloat(document.getElementById('bet-amount').value);
-            const mines = parseInt(document.getElementById('mines-count').value);
-            if (isNaN(bet) || bet < 1 || bet > currentUser.balance) {
-                showNotification(bet > currentUser.balance ? 'Saldo insuficiente' : 'Aposta mínima CB$1.00', 'red');
-                return;
-            }
-            
-            betCooldowns[gameName] = Date.now();
-            updateUserBalance(currentUser.balance - bet, false);
-            minesGameState = { active: true, betAmount: bet, minesCount: mines, safeCellsClicked: 0, multiplier: 1.0, minesPositions: [], revealedCells: [] };
-            
-            while (minesGameState.minesPositions.length < mines) {
-                const randomPos = Math.floor(Math.random() * 25);
-                if (!minesGameState.minesPositions.includes(randomPos)) minesGameState.minesPositions.push(randomPos);
-            }
-            
-            document.getElementById('current-bet').textContent = `CB$ ${bet.toFixed(2)}`;
-            document.getElementById('cash-out').classList.remove('hidden');
-            renderGameBoard();
-        }
-
-        function renderGameBoard() {
-            const gameBoard = document.getElementById('game-board');
-            if(!gameBoard) return;
-            gameBoard.innerHTML = '';
-            for (let i = 0; i < 25; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'cell bg-gray-800 h-16 rounded flex items-center justify-center cursor-pointer font-bold text-xl border border-gray-700 hover:bg-gray-700';
-                cell.dataset.index = i;
-                
-                if (minesGameState.revealedCells.includes(i)) {
-                     cell.innerHTML = minesGameState.minesPositions.includes(i) ? '<i class="fas fa-bomb text-red-500"></i>' : '💎';
-                     cell.className = `cell h-16 rounded flex items-center justify-center font-bold text-xl border ${minesGameState.minesPositions.includes(i) ? 'bg-red-900 border-red-700' : 'bg-green-900 border-green-700'}`;
-                } else if (minesGameState.active) {
-                    cell.addEventListener('click', () => revealCell(i));
-                }
-                gameBoard.appendChild(cell);
-            }
-        }
-
-        function revealCell(index) {
-            if (!minesGameState.active || minesGameState.revealedCells.includes(index)) return;
-            minesGameState.revealedCells.push(index);
-            
-            if (minesGameState.minesPositions.includes(index)) {
-                minesGameState.active = false;
-                showNotification('Você encontrou uma mina!', 'red');
-                document.getElementById('cash-out').classList.add('hidden');
-                renderGameBoard();
-            } else {
-                minesGameState.safeCellsClicked++;
-                minesGameState.multiplier += 0.05 * minesGameState.minesCount;
-                document.getElementById('potential-win').textContent = `CB$ ${(minesGameState.betAmount * minesGameState.multiplier).toFixed(2)}`;
-                renderGameBoard();
-            }
-        }
-
-        function cashOut() {
-            if (!minesGameState.active) return;
-            const winAmount = minesGameState.betAmount * minesGameState.multiplier;
-            updateUserBalance(currentUser.balance + winAmount, true);
-            minesGameState.active = false;
-            showNotification(`Você retirou CB$${winAmount.toFixed(2)}`, 'green');
-            document.getElementById('cash-out').classList.add('hidden');
-            renderGameBoard();
-        }
-        
         // ================================================================== //
-        // START: LÓGICA DO JOGO DOUBLE CRASH                               //
+        // LÓGICA DO MODAL DE JOGO
         // ================================================================== //
-        let doubleCrashGame = {
-            active: false,
-            betAmount: 0,
-            multiplier: 1.00,
-            crashPoint1: 0,
-            crashPoint2: 0,
-            cashedOut1: false,
-            cashedOut2: false,
-            crashed1: false,
-            crashed2: false,
-            totalWin: 0,
-            animationFrame: null,
-        };
+        const gameModal = document.getElementById('game-modal');
+        const gameModalTitle = document.getElementById('game-modal-title');
+        const gameCards = document.querySelectorAll('.game-card');
 
-        const dcStartBtn = document.getElementById('dc-start-game');
-        const dcCashout1Btn = document.getElementById('dc-cashout1');
-        const dcCashout2Btn = document.getElementById('dc-cashout2');
-        const dcMultiplierEl = document.getElementById('dc-multiplier');
-        const dcGameStatusEl = document.getElementById('dc-game-status');
-        const dcStatus1El = document.getElementById('dc-status1');
-        const dcStatus2El = document.getElementById('dc-status2');
-        const dcCrashPoint1El = document.getElementById('dc-crashpoint1');
-        const dcCrashPoint2El = document.getElementById('dc-crashpoint2');
-        const dcTotalWinEl = document.getElementById('dc-total-win');
+        gameCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const gameName = card.dataset.gameName;
+                gameModalTitle.textContent = gameName;
+                gameModal.classList.remove('hidden');
+            });
+        });
 
-        if(dcStartBtn) dcStartBtn.addEventListener('click', startDoubleCrash);
-        if(dcCashout1Btn) dcCashout1Btn.addEventListener('click', () => cashOutDoubleCrash(1));
-        if(dcCashout2Btn) dcCashout2Btn.addEventListener('click', () => cashOutDoubleCrash(2));
+        document.getElementById('close-game-modal').addEventListener('click', () => {
+            gameModal.classList.add('hidden');
+        });
 
-        function startDoubleCrash() {
-            const gameName = 'Double Crash';
-            if (doubleCrashGame.active || Date.now() - (betCooldowns[gameName] || 0) < 3000) {
-                showNotification('Aguarde a próxima rodada.', 'yellow');
-                return;
-            }
+        // ================================================================== //
+        // LÓGICA DO BILHETE DE APOSTAS (CBFD)
+        // ================================================================== //
+        let betSlip = [];
+        const betSlipContainerMobile = document.getElementById('bet-slip');
+        const betSlipContainerDesktop = document.getElementById('bet-slip-desktop');
+        const cbfdGamesList = document.getElementById('cbfd-games-list');
 
-            const bet = parseFloat(document.getElementById('dc-bet-amount').value);
-            if (isNaN(bet) || bet < 1 || bet > currentUser.balance) {
-                showNotification(bet > currentUser.balance ? 'Saldo insuficiente' : 'Aposta mínima CB$1.00', 'red');
-                return;
-            }
+        const toggleBetSelection = (event) => {
+            const target = event.target.closest('.bet-option');
+            if (!target) return;
 
-            betCooldowns[gameName] = Date.now();
-            updateUserBalance(currentUser.balance - bet, false);
-
-            const p1 = 1.1 + Math.random() * 5;
-            const p2 = 1.1 + Math.random() * 10;
-            
-            doubleCrashGame = {
-                active: true,
-                betAmount: bet,
-                multiplier: 1.00,
-                crashPoint1: Math.min(p1, p2),
-                crashPoint2: Math.max(p1, p2),
-                cashedOut1: false,
-                cashedOut2: false,
-                crashed1: false,
-                crashed2: false,
-                totalWin: 0,
-                animationFrame: null,
+            const selectionData = {
+                gameId: target.dataset.gameId,
+                gameName: target.dataset.gameName,
+                market: target.dataset.market,
+                selection: target.dataset.selection,
+                odd: parseFloat(target.dataset.odd)
             };
 
-            // Reset UI
-            dcStartBtn.disabled = true;
-            dcCashout1Btn.disabled = false;
-            dcCashout2Btn.disabled = false;
-            dcMultiplierEl.textContent = '1.00x';
-            dcMultiplierEl.classList.remove('text-blue-500', 'text-purple-500', 'text-red-500');
-            dcGameStatusEl.textContent = 'Em andamento...';
-            dcStatus1El.textContent = 'Aguardando';
-            dcStatus2El.textContent = 'Aguardando';
-            dcCrashPoint1El.textContent = '?.??x';
-            dcCrashPoint2El.textContent = '?.??x';
-            dcTotalWinEl.textContent = 'CB$ 0,00';
-
-            doubleCrashGame.animationFrame = requestAnimationFrame(updateDoubleCrashGame);
-        }
-
-        function updateDoubleCrashGame() {
-            if (!doubleCrashGame.active) return;
-            
-            doubleCrashGame.multiplier += 0.01 + (doubleCrashGame.multiplier * 0.005);
-            dcMultiplierEl.textContent = `${doubleCrashGame.multiplier.toFixed(2)}x`;
-
-            // Check for crash 1
-            if (!doubleCrashGame.crashed1 && doubleCrashGame.multiplier >= doubleCrashGame.crashPoint1) {
-                doubleCrashGame.crashed1 = true;
-                dcCashout1Btn.disabled = true;
-                dcMultiplierEl.classList.add('text-blue-500');
-                dcCrashPoint1El.textContent = `${doubleCrashGame.crashPoint1.toFixed(2)}x`;
-                if (!doubleCrashGame.cashedOut1) {
-                    dcStatus1El.textContent = 'Perdeu!';
+            const existingSelectionIndex = betSlip.findIndex(item => item.gameId === selectionData.gameId);
+            if (existingSelectionIndex > -1) {
+                if (betSlip[existingSelectionIndex].selection === selectionData.selection) {
+                    betSlip.splice(existingSelectionIndex, 1);
+                } else {
+                    betSlip[existingSelectionIndex] = selectionData;
                 }
-            }
-
-            // Check for crash 2
-            if (!doubleCrashGame.crashed2 && doubleCrashGame.multiplier >= doubleCrashGame.crashPoint2) {
-                doubleCrashGame.crashed2 = true;
-                dcCashout2Btn.disabled = true;
-                dcMultiplierEl.classList.add('text-purple-500');
-                dcCrashPoint2El.textContent = `${doubleCrashGame.crashPoint2.toFixed(2)}x`;
-                if (!doubleCrashGame.cashedOut2) {
-                    dcStatus2El.textContent = 'Perdeu!';
-                }
-            }
-            
-            // End game if both crashed
-            if (doubleCrashGame.crashed1 && doubleCrashGame.crashed2) {
-                endDoubleCrash();
-                return;
-            }
-
-            doubleCrashGame.animationFrame = requestAnimationFrame(updateDoubleCrashGame);
-        }
-
-        function cashOutDoubleCrash(num) {
-            if (!doubleCrashGame.active) return;
-            
-            const betPart = doubleCrashGame.betAmount / 2;
-            const winAmount = betPart * doubleCrashGame.multiplier;
-
-            if (num === 1 && !doubleCrashGame.cashedOut1 && !doubleCrashGame.crashed1) {
-                doubleCrashGame.cashedOut1 = true;
-                doubleCrashGame.totalWin += winAmount;
-                dcCashout1Btn.disabled = true;
-                dcStatus1El.textContent = `Ganhou ${winAmount.toFixed(2)}`;
-            } else if (num === 2 && !doubleCrashGame.cashedOut2 && !doubleCrashGame.crashed2) {
-                doubleCrashGame.cashedOut2 = true;
-                doubleCrashGame.totalWin += winAmount;
-                dcCashout2Btn.disabled = true;
-                dcStatus2El.textContent = `Ganhou ${winAmount.toFixed(2)}`;
-            }
-            
-            dcTotalWinEl.textContent = `CB$ ${doubleCrashGame.totalWin.toFixed(2)}`;
-
-            if (doubleCrashGame.cashedOut1 && doubleCrashGame.cashedOut2) {
-                endDoubleCrash();
-            }
-        }
-        
-        function endDoubleCrash() {
-            cancelAnimationFrame(doubleCrashGame.animationFrame);
-            doubleCrashGame.active = false;
-            
-            if (doubleCrashGame.totalWin > 0) {
-                updateUserBalance(currentUser.balance + doubleCrashGame.totalWin, true);
-                showNotification(`Você ganhou um total de CB$${doubleCrashGame.totalWin.toFixed(2)}!`, 'green');
             } else {
-                showNotification('Mais sorte na próxima vez!', 'red');
+                betSlip.push(selectionData);
             }
+            renderBetSlip();
+            updateSelectedButtons();
+        };
 
-            dcGameStatusEl.textContent = 'Fim da Rodada';
-            dcMultiplierEl.classList.add('text-red-500');
-            dcStartBtn.disabled = false;
-        }
-
-
-        // Deposit/Withdrawal Modals
-        document.getElementById('deposit-btn').addEventListener('click', () => {
-            document.getElementById('deposit-modal').classList.remove('hidden');
-        });
-        document.getElementById('close-deposit-modal').addEventListener('click', () => {
-            document.getElementById('deposit-modal').classList.add('hidden');
-        });
-        document.getElementById('copy-pix').addEventListener('click', () => {
-            navigator.clipboard.writeText(document.getElementById('pix-key').textContent);
-            showNotification('Código copiado!', 'green');
-        });
-        document.getElementById('confirm-deposit').addEventListener('click', () => {
-            const amount = parseFloat(document.getElementById('deposit-amount').value);
-            if(isNaN(amount) || amount < 10) {
-                showNotification('Depósito mínimo de CB$10.', 'red');
-                return;
-            }
-            updateUserBalance(currentUser.balance + amount, true);
-            document.getElementById('deposit-modal').classList.add('hidden');
-            showNotification(`Depósito de CB$${amount.toFixed(2)} confirmado!`, 'green');
-            showReceipt('Depósito', amount, 'Aprovado');
-        });
-
-        document.getElementById('withdraw-btn').addEventListener('click', () => {
-            document.getElementById('withdraw-modal').classList.remove('hidden');
-            document.getElementById('withdraw-balance-info').textContent = `CB$ ${currentUser.balance.toFixed(2)}`;
-        });
-        document.getElementById('close-withdraw-modal').addEventListener('click', () => {
-            document.getElementById('withdraw-modal').classList.add('hidden');
-        });
-        document.getElementById('confirm-withdraw').addEventListener('click', () => {
-            const amountInput = document.getElementById('withdraw-amount');
-            const amount = parseFloat(amountInput.value);
-            const keyInput = document.getElementById('withdraw-pix-key');
-            const key = keyInput.value;
-            if(isNaN(amount) || amount < 50 || amount > currentUser.balance) {
-                showNotification('Valor de saque inválido ou insuficiente.', 'red');
-                return;
-            }
-            if(!key) {
-                 showNotification('Insira sua chave de saque.', 'red');
-                return;
-            }
-            updateUserBalance(currentUser.balance - amount, false);
-            
-            document.getElementById('withdraw-modal').classList.add('hidden');
-            
-            showWithdrawSuccessModal(amount);
-
-            amountInput.value = '';
-            keyInput.value = '';
-        });
+        const updateSelectedButtons = () => {
+            document.querySelectorAll('.bet-option').forEach(btn => {
+                const gameId = btn.dataset.gameId;
+                const selection = btn.dataset.selection;
+                const isInSlip = betSlip.some(item => item.gameId === gameId && item.selection === selection);
+                btn.classList.toggle('selected', isInSlip);
+            });
+        };
         
-        // NOVO: Funções para o modal de sucesso de saque
-        function showWithdrawSuccessModal(amount) {
-            const modal = document.getElementById('withdraw-success-modal');
-            document.getElementById('ws-amount').textContent = `CB$ ${amount.toFixed(2)}`;
-            modal.classList.remove('hidden');
-        }
-
-        document.getElementById('close-ws-modal').addEventListener('click', () => {
-            document.getElementById('withdraw-success-modal').classList.add('hidden');
-        });
-
-
-        // Receipt Modal
-        const receiptModal = document.getElementById('receipt-modal');
-        function showReceipt(type, amount, status) {
-            document.getElementById('receipt-type').textContent = type;
-            document.getElementById('receipt-amount').textContent = `CB$ ${amount.toFixed(2)}`;
-            const statusEl = document.getElementById('receipt-status');
-            statusEl.textContent = status;
-            statusEl.className = `font-bold ${status === 'Aprovado' ? 'text-green-500' : status === 'Pendente' ? 'text-yellow-500' : 'text-red-500'}`;
-            document.getElementById('receipt-datetime').textContent = new Date().toLocaleString('pt-BR');
-            document.getElementById('receipt-id').textContent = `#TRX${Date.now()}`;
-            receiptModal.classList.remove('hidden');
-        }
-        document.getElementById('close-receipt-modal').addEventListener('click', () => receiptModal.classList.add('hidden'));
-        document.getElementById('close-receipt-btn').addEventListener('click', () => receiptModal.classList.add('hidden'));
-        document.getElementById('copy-receipt').addEventListener('click', () => {
-            const text = document.getElementById('receipt-details').innerText;
-            navigator.clipboard.writeText(text);
-            showNotification('Comprovante copiado!', 'green');
-        });
-        
-        // User Menu Logic
-        document.getElementById('user-menu-btn').addEventListener('click', () => {
-            document.getElementById('user-menu').classList.toggle('hidden');
-        });
-        document.addEventListener('click', (e) => {
-            const menu = document.getElementById('user-menu');
-            const btn = document.getElementById('user-menu-btn');
-            if (!menu.contains(e.target) && !btn.contains(e.target)) {
-                menu.classList.add('hidden');
+        const renderBetSlip = () => {
+            const slipIsEmpty = betSlip.length === 0;
+            const betAmountInput = document.querySelector('#slip-bet-amount');
+            const betAmount = betAmountInput ? parseFloat(betAmountInput.value) || 0 : 0;
+            
+            const html = slipIsEmpty ? generateEmptySlipHTML() : generateSlipHTML(betAmount);
+            betSlipContainerDesktop.innerHTML = html;
+            
+            if (window.innerWidth < 1024) {
+                betSlipContainerMobile.innerHTML = html;
+                betSlipContainerMobile.classList.toggle('active', !slipIsEmpty);
             }
-        });
 
-        // Initialize App
+            if (!slipIsEmpty) {
+                document.querySelectorAll('.slip-bet-amount-input').forEach(input => {
+                    input.addEventListener('input', (e) => {
+                        const newAmount = e.target.value;
+                        document.querySelectorAll('.slip-bet-amount-input').forEach(i => i.value = newAmount);
+                        renderBetSlip();
+                    });
+                });
+                document.querySelectorAll('.place-bet-btn').forEach(btn => btn.addEventListener('click', placeBet));
+                document.querySelectorAll('.remove-slip-item').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const gameId = e.target.closest('.remove-slip-item').dataset.gameId;
+                        betSlip = betSlip.filter(item => item.gameId !== gameId);
+                        renderBetSlip();
+                        updateSelectedButtons();
+                    });
+                });
+            }
+        };
+        
+        const generateEmptySlipHTML = () => `<h3 class="text-lg font-bold text-yellow-400 mb-2">Bilhete de Apostas</h3><p class="text-sm text-gray-400 text-center py-4">Selecione uma aposta para começar.</p>`;
+
+        const generateSlipHTML = (betAmount) => {
+            const totalOdds = betSlip.reduce((acc, item) => acc * item.odd, 1);
+            const potentialWinnings = betAmount * totalOdds;
+
+            const itemsHTML = betSlip.map(item => `
+                <div class="bg-gray-800 p-3 rounded mb-2">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs text-gray-400">${item.market}</p>
+                            <p class="font-bold text-sm">${item.selection}</p>
+                            <p class="text-xs text-gray-400">${item.gameName}</p>
+                        </div>
+                        <div class="flex items-center">
+                             <span class="font-bold text-yellow-400 mr-4">${item.odd.toFixed(2)}</span>
+                             <button class="remove-slip-item text-red-500 hover:text-red-400 text-2xl font-bold leading-none" data-game-id="${item.gameId}">&times;</button>
+                        </div>
+                    </div>
+                </div>`).join('');
+
+            return `
+                <h3 class="text-lg font-bold text-yellow-400 mb-4">Bilhete de Apostas</h3>
+                <div class="max-h-48 md:max-h-60 overflow-y-auto pr-2">${itemsHTML}</div>
+                <div class="mt-4 pt-4 border-t border-gray-700">
+                    <div class="flex justify-between items-center mb-2 text-sm">
+                        <span>Total Odds:</span>
+                        <span class="font-bold text-yellow-400">${totalOdds.toFixed(2)}x</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="slip-bet-amount" class="text-sm mb-1 block">Valor da Aposta (CB$)</label>
+                        <input type="number" id="slip-bet-amount" class="slip-bet-amount-input w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0,00" value="${betAmount > 0 ? betAmount : ''}">
+                    </div>
+                    <div class="flex justify-between items-center font-bold text-lg mb-4">
+                        <span>Ganhos Potenciais:</span>
+                        <span class="text-green-500">CB$ ${potentialWinnings.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <button class="place-bet-btn w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded transition">Apostar</button>
+                </div>`;
+        };
+        
+        const placeBet = () => {
+            const betAmount = parseFloat(document.getElementById('slip-bet-amount').value);
+            if (!betAmount || betAmount <= 0) {
+                showNotification("Por favor, insira um valor de aposta válido.", "red");
+                return;
+            }
+            if (betAmount > currentUser.balance) {
+                showNotification("Saldo insuficiente para esta aposta.", "red");
+                return;
+            }
+            if (betSlip.length === 0) {
+                showNotification("Seu bilhete de apostas está vazio.", "red");
+                return;
+            }
+
+            updateUserBalance(currentUser.balance - betAmount);
+            const totalOdds = betSlip.reduce((acc, item) => acc * item.odd, 1);
+            const potentialWinnings = betAmount * totalOdds;
+            showNotification(`Aposta de CB$${betAmount.toFixed(2)} realizada! Ganhos potenciais: CB$${potentialWinnings.toFixed(2)}`, 'green');
+            
+            betSlip = [];
+            renderBetSlip();
+            updateSelectedButtons();
+        };
+
+        cbfdGamesList.addEventListener('click', toggleBetSelection);
+
+        // INICIALIZAÇÃO GERAL
         checkLoggedInUser();
-
+        renderBetSlip();
+    });
     </script>
 </body>
 </html>
